@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "Đăng ký - Nhà Sách";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link rel="stylesheet" href="~/css/taikhoan.css" />
+}
+
+<div class="container my-5" style="max-width: 500px;">
+    <h2 class="text-center mb-4">Đăng ký tài khoản</h2>
+
+    <form method="post">
+        <div class="mb-3">
+            <label class="form-label">Họ và tên</label>
+            <input type="text" class="form-control" placeholder="Nhập họ tên" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" placeholder="Nhập email" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Mật khẩu</label>
+            <input type="password" class="form-control" placeholder="Tạo mật khẩu" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Xác nhận mật khẩu</label>
+            <input type="password" class="form-control" placeholder="Nhập lại mật khẩu" required>
+        </div>
+        <button type="submit" class="btn btn-success w-100">Đăng ký</button>
+    </form>
+
+    <div class="text-center mt-3">
+        <p>Hoặc đăng ký bằng</p>
+        <a href="#" class="btn btn-danger w-100 mb-2">📧 Gmail</a>
+        <a href="#" class="btn btn btn-zalo w-100">💬 Zalo</a>
+    </div>
+
+    <div class="text-center mt-3">
+        <p>Bạn đã có tài khoản? <a asp-controller="TaiKhoan" asp-action="DangNhap">Đăng nhập</a></p>
+    </div>
+</div>
