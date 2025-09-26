@@ -1,0 +1,33 @@
+﻿@model IEnumerable<HeThongNhaSach.Models.SanPham>
+@using System.Linq
+
+@{
+    ViewData["Title"] = "Sách nước ngoài";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-4">
+    <h2 class="mb-4">🌍 Sách nước ngoài</h2>
+    <div class="row">
+        @foreach (var sp in Model) 
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@Url.Content(sp.HinhAnh)"
+                         class="card-img-top"
+                         alt="@sp.TenSp"
+                         style="width:100%; height:250px; object-fit:cover;">
+
+
+
+                    <div class="card-body">
+                        <h5 class="card-title">@sp.TenSp</h5>
+                        <p class="text-muted">@sp.TacGia</p>
+                        <p class="fw-bold text-danger">@sp.GiaBan.ToString("N0") đ</p>
+                        <a href="#" class="btn btn-primary w-100">Mua ngay</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

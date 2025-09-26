@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Danh mục - Nhà Sách";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/danhmuc.css" />
+}
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <aside class="col-md-3">
+            <div class="list-group shadow-sm">
+                <a asp-controller="DanhMuc" asp-action="SachTrongNuoc"
+                   class="list-group-item list-group-item-action @(ViewBag.Active == "TrongNuoc" ? "active" : "")">
+                    📚 Sách Trong Nước
+                </a>
+                <a asp-controller="DanhMuc" asp-action="SachNgoaiNuoc"
+                   class="list-group-item list-group-item-action @(ViewBag.Active == "NgoaiNuoc" ? "active" : "")">
+                    🌍 Sách Nước Ngoài
+                </a>
+                <a asp-controller="DanhMuc" asp-action="DungCuHocSinh"
+                   class="list-group-item list-group-item-action @(ViewBag.Active == "DungCu" ? "active" : "")">
+                    ✏️ Dụng Cụ Học Sinh
+                </a>
+                <a asp-controller="DanhMuc" asp-action="DoChoiTreEm"
+                   class="list-group-item list-group-item-action @(ViewBag.Active == "DoChoi" ? "active" : "")">
+                    🧸 Đồ Chơi
+                </a>
+            </div>
+        </aside>
+
+        <!-- Content -->
+        <div class="col-md-9">
+            <h3 class="fw-bold text-primary mb-4">@ViewBag.TitleDanhMuc</h3>
+
+            <div class="row">
+                @foreach (var col in (List<(string, List<string>)>)ViewBag.SubCategories)
+                {
+                    <div class="col-md-4 mb-3">
+                        <h6 class="fw-bold">@col.Item1</h6>
+                        <ul class="list-unstyled">
+                            @foreach (var item in col.Item2)
+                            {
+                                <li><a href="#">@item</a></li>
+                            }
+                            <li><a href="#">Xem tất cả →</a></li>
+                        </ul>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

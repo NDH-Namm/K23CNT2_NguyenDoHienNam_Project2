@@ -1,0 +1,25 @@
+﻿@model List<string>
+@{
+    ViewData["Title"] = "Thông báo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-4">
+    <h2 class="mb-4">🔔 Thông báo của bạn</h2>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        <ul class="list-group">
+            @foreach (var tb in Model)
+            {
+                <li class="list-group-item d-flex align-items-center">
+                    <span>@tb</span>
+                </li>
+            }
+        </ul>
+    }
+    else
+    {
+        <div class="alert alert-info">Hiện chưa có thông báo nào.</div>
+    }
+</div>
