@@ -1,0 +1,45 @@
+﻿@model HeThongNhaSach.Models.DonHang
+@{
+    ViewData["Title"] = "Chi tiết đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Chi tiết đơn hàng #@Model.MaDh</h2>
+<p><strong>Khách hàng:</strong> @Model.MaTkNavigation?.HoTen</p>
+<p><strong>Email:</strong> @Model.MaTkNavigation?.Email</p>
+<p><strong>Ngày đặt:</strong> @Model.NgayDat?.ToString("dd/MM/yyyy")</p>
+<p><strong>Tổng tiền:</strong> @Model.TongTien?.ToString("N0") đ</p>
+<p><strong>Trạng thái:</strong> @Model.TrangThai</p>
+
+<h4>Sản phẩm trong đơn</h4>
+<table class="table table-bordered">
+    <thead class="table-light">
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Đơn giá</th>
+            <th>Thành tiền</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ct in Model.ChiTietDonHangs)
+        {
+            <tr>
+                <td>@ct.MaSpNavigation?.TenSp</td>
+                <td>@ct.SoLuong</td>
+                <td>@ct.DonGia.ToString("N0") đ</td>
+                <td>@(ct.SoLuong * ct.DonGia).ToString("N0") đ</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<form asp-action="UpdateStatus" method="post">
+    <input type="hidden" name="id" value="@Model.MaDh" />
+    <select name="trangThai" class="form-select w-auto d-inline">
+        <option value="Chờ xác nhận">Chờ xác nhận</option>
+        <option value="Đang giao">Đang giao</option>
+        <option value="Hoàn tất">Hoàn tất</option>
+        <option value="Đã hủy">Đã hủy</option>
+    </select>
+    <button type="submit" class="btn btn-success">Cập nhật</button>
+</form>

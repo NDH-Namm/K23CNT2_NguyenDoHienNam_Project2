@@ -1,0 +1,39 @@
+﻿@model HeThongNhaSach.Models.DonHang
+
+@{
+    ViewData["Title"] = "Sửa đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 class="mb-4">Sửa đơn hàng #@Model.MaDh</h2>
+
+<form asp-action="Edit">
+    @Html.AntiForgeryToken()
+    <input type="hidden" asp-for="MaTk" />
+
+    <input type="hidden" asp-for="MaDh" />
+
+    <div class="mb-3">
+        <label asp-for="NgayDat" class="form-label"></label>
+        <input asp-for="NgayDat" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TongTien" class="form-label"></label>
+        <input asp-for="TongTien" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="TrangThai" class="form-label">Trạng thái</label>
+        <select asp-for="TrangThai" class="form-select">
+            <option value="Chờ xác nhận">Chờ xác nhận</option>
+            <option value="Đang xử lý">Đang xử lý</option>
+            <option value="Đang giao">Đang giao</option>
+            <option value="Hoàn thành">Hoàn thành</option>
+            <option value="Đã hủy">Đã hủy</option>
+        </select>
+    </div>
+
+    <button type="submit" class="btn btn-success">💾 Lưu thay đổi</button>
+    <a asp-action="Index" class="btn btn-secondary">⬅ Quay lại</a>
+</form>

@@ -1,0 +1,42 @@
+﻿@model HeThongNhaSach.Models.GioHang
+
+<div class="container my-5">
+    <h2>🛒 Giỏ hàng của bạn</h2>
+
+    @if (Model == null || !Model.ChiTietGioHangs.Any())
+    {
+        <div class="alert alert-info">Giỏ hàng của bạn đang trống.</div>
+    }
+    else
+    {
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Sản phẩm</th>
+                    <th>Đơn giá</th>
+                    <th>Số lượng</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ChiTietGioHangs)
+                {
+                    <tr>
+                        <td>@item.MaSpNavigation?.TenSp</td>
+                        <td>@item.DonGia.ToString("N0") đ</td>
+                        <td>@item.SoLuong</td>
+                        <td>@(item.SoLuong * item.DonGia).ToString("N0") đ</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="text-end fw-bold">
+            Tổng cộng: @Model.ChiTietGioHangs.Sum(x => x.SoLuong * x.DonGia).ToString("N0") đ
+        </div>
+
+        <form asp-action="ThanhToan" method="post" class="text-end mt-3">
+            <button type="submit" class="btn btn-success">Thanh toán</button>
+        </form>
+    }
+</div>

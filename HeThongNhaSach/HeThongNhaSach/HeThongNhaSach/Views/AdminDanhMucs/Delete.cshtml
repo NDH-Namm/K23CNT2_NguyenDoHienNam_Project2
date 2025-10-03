@@ -1,0 +1,18 @@
+﻿@model HeThongNhaSach.Models.DanhMuc
+
+@{
+    ViewData["Title"] = "Xóa Danh Mục";
+}
+
+<h2 class="mb-4 text-danger">🗑️ Xóa Danh Mục</h2>
+
+<div class="alert alert-warning">
+    Bạn có chắc muốn xóa danh mục <strong>@Model.TenDm</strong> (Mã: @Model.MaDm) ?
+</div>
+
+<form asp-action="Delete" method="post">
+
+    <input type="hidden" asp-for="MaDm" />
+    <button type="submit" class="btn btn-danger"><i class="bi bi-trash"></i> Xóa</button>
+    <a asp-action="Index" class="btn btn-secondary">Hủy</a>
+</form>

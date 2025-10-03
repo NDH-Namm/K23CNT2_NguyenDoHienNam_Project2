@@ -1,0 +1,35 @@
+﻿@model IEnumerable<HeThongNhaSach.Models.DanhMuc>
+
+@{
+    ViewData["Title"] = "Quản lý Danh Mục";
+}
+
+<h2 class="mb-4">📂 Quản lý Danh Mục</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Thêm mới</a>
+</p>
+
+<table class="table table-striped table-bordered shadow-sm">
+    <thead class="table-primary">
+        <tr>
+            <th>Mã danh mục</th>
+            <th>Tên danh mục</th>
+            <th class="text-center">Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaDm</td>
+                <td>@item.TenDm</td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.MaDm" class="btn btn-sm btn-warning"><i class="bi bi-pencil"></i> Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.MaDm" class="btn btn-sm btn-info text-white"><i class="bi bi-eye"></i> Xem</a>
+                    <a asp-action="Delete" asp-route-id="@item.MaDm" class="btn btn-sm btn-danger"><i class="bi bi-trash"></i> Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

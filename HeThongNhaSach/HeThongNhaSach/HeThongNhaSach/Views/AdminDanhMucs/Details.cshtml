@@ -1,0 +1,17 @@
+﻿@model HeThongNhaSach.Models.DanhMuc
+
+@{
+    ViewData["Title"] = "Chi tiết Danh Mục";
+}
+
+<h2 class="mb-4">📖 Chi tiết Danh Mục</h2>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h5 class="card-title">Mã danh mục: @Model.MaDm</h5>
+        <p class="card-text"><strong>Tên danh mục:</strong> @Model.TenDm</p>
+    </div>
+</div>
+
+<a asp-action="Edit" asp-route-id="@Model.MaDm" class="btn btn-warning mt-3"><i class="bi bi-pencil"></i> Sửa</a>
+<a asp-action="Index" class="btn btn-secondary mt-3">Quay lại</a>
