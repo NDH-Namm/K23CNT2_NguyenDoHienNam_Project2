@@ -1,0 +1,71 @@
+﻿@model IEnumerable<HeThongNhaSach.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Quản lý sản phẩm";
+}
+
+<h2 class="mb-4">📚 Danh sách sản phẩm</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">+ Thêm sản phẩm mới</a>
+</p>
+
+<table class="table table-bordered table-hover align-middle">
+    <thead class="table-dark text-center">
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Tác giả</th>
+            <th>Nhà xuất bản</th>
+            <th>Giá gốc</th>
+            <th>Giá bán</th>
+            <th>Giảm giá (%)</th>
+            <th>Số đánh giá</th>
+            <th>Số sao</th>
+            <th>Ảnh</th>
+            <th>Mô tả</th>
+            <th>Danh mục</th>
+            <th>Hành động</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.TenSp</td>
+                <td>@item.TacGia</td>
+                <td>@item.NhaXuatBan</td>
+                <td class="text-end">
+                    @item.GiaGoc.ToString("N0") đ
+                </td>
+                <td class="text-end text-danger fw-bold">
+                    @item.GiaBan.ToString("N0") đ
+                </td>
+
+                <td class="text-center">@item.GiamGia %</td>
+                <td class="text-center">@item.SoDanhGia</td>
+                <td class="text-center">⭐ @item.SoSao</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.HinhAnh))
+                    {
+                        <img src="@item.HinhAnh" alt="@item.TenSp" style="width:60px; height:80px; object-fit:cover;" />
+                    }
+                    else
+                    {
+                        <span class="text-muted">Không có ảnh</span>
+                    }
+                </td>
+                <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis;">
+                    @item.MoTa
+                </td>
+                <td>
+                    @item.MaDmNavigation?.TenDm
+                </td>
+                <td class="text-center">
+                    <a asp-action="Edit" asp-route-id="@item.MaSp" class="btn btn-sm btn-warning">✏ Sửa</a>
+                    <a asp-action="Details" asp-route-id="@item.MaSp" class="btn btn-sm btn-info">🔍 Chi tiết</a>
+                    <a asp-action="Delete" asp-route-id="@item.MaSp" class="btn btn-sm btn-danger">🗑 Xóa</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

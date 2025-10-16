@@ -1,0 +1,13 @@
+﻿/* Nút Zalo */
+.btn-zalo {
+    background-color: #0068FF; /* xanh đặc trưng của Zalo */
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border: none;
+}
+
+    .btn-zalo:hover {
+        background-color: #0052cc; /* xanh đậm hơn khi hover */
+        color: white;
+    }

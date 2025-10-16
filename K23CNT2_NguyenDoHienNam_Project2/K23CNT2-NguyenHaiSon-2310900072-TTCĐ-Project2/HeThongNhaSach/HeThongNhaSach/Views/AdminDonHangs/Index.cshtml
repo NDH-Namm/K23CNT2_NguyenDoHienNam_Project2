@@ -1,0 +1,52 @@
+﻿@model IEnumerable<HeThongNhaSach.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Quản lý đơn hàng";
+}
+
+<h2 class="mb-4">📦 Danh sách đơn hàng</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>Mã đơn</th>
+            <th>Khách hàng</th>
+            <th>Ngày đặt</th>
+            <th>Tổng tiền</th>
+            <th>Trạng thái</th>
+            <th>Thao tác</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.MaDh</td>
+                <td>@(item.MaTkNavigation?.HoTen ?? "Khách vãng lai")</td>
+                <td>@item.NgayDat?.ToString("dd/MM/yyyy")</td>
+                <td>@item.TongTien?.ToString("N0") đ</td>
+                <td>@item.TrangThai</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.MaDh" class="btn btn-info btn-sm">👁 Xem</a>
+                    <a asp-action="Edit" asp-route-id="@item.MaDh" class="btn btn-warning btn-sm">✏ Sửa</a>
+                    <form asp-action="Delete" asp-route-id="@item.MaDh" method="post" style="display:inline"
+                          onsubmit="return confirm('Bạn có chắc muốn xóa đơn hàng này không?');">
+                        <button type="submit" class="btn btn-danger btn-sm">🗑 Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        }
+        @if (TempData["Message"] != null)
+        {
+            <div class="alert alert-success text-center">
+                @TempData["Message"]
+            </div>
+        }
+
+    </tbody>
+</table>

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<HeThongNhaSach.Models.DonHang>
+
+@{
+    ViewData["Title"] = "Đơn hàng của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <h2 class="mb-4">📦 Đơn hàng của tôi</h2>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">Bạn chưa có đơn hàng nào.</div>
+    }
+    else
+    {
+        <table class="table table-striped">
+            <thead class="table-light">
+                <tr>
+                    <th>Mã đơn</th>
+                    <th>Ngày đặt</th>
+                    <th>Tổng tiền</th>
+                    <th>Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var dh in Model)
+                {
+                    <tr>
+                        <td>@dh.MaDh</td>
+                        <td>@dh.NgayDat?.ToString("dd/MM/yyyy HH:mm")</td>
+                        <td>@dh.TongTien?.ToString("N0") đ</td>
+                        <td>
+                            <span class="badge bg-info text-dark">@dh.TrangThai</span>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>

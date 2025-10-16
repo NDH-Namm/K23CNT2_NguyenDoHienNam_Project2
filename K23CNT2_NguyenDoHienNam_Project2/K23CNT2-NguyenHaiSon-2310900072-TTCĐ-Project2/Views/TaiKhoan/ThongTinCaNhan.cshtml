@@ -1,0 +1,60 @@
+﻿@model HeThongNhaSach.ViewModels.ThongTinKhachHangViewModel
+@{
+    ViewData["Title"] = "Thông tin cá nhân";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3">
+            <div class="list-group shadow-sm">
+                <a href="#" class="list-group-item list-group-item-action active fw-bold">Thông tin tài khoản</a>
+                <a href="/TaiKhoan/DonHangCuaToi" class="list-group-item list-group-item-action">Đơn hàng của tôi</a>
+                <a href="#" class="list-group-item list-group-item-action">Ví voucher</a>
+                <a href="#" class="list-group-item list-group-item-action">Đăng xuất</a>
+            </div>
+        </div>
+
+        <!-- Form -->
+        <div class="col-md-9">
+            <div class="card shadow-sm">
+                <div class="card-header bg-danger text-white fw-bold">
+                    Cập nhật thông tin cá nhân
+                </div>
+                <div class="card-body">
+                    @if (ViewBag.ThongBao != null)
+                    {
+                        <div class="alert alert-success">@ViewBag.ThongBao</div>
+                    }
+
+                    <form asp-action="ThongTinCaNhan" method="post">
+                        <div class="mb-3">
+                            <label class="form-label">Họ và tên</label>
+                            <input asp-for="HoTen" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input asp-for="Email" class="form-control" type="email" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Số điện thoại</label>
+                            <input asp-for="SoDienThoai" class="form-control" />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Địa chỉ</label>
+                            <textarea asp-for="DiaChi" class="form-control" rows="2"></textarea>
+                        </div>
+
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-danger px-4">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

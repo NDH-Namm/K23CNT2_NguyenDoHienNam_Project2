@@ -1,0 +1,69 @@
+﻿@model HeThongNhaSach.Models.SanPham
+@{
+    ViewData["Title"] = Model.TenSp;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container my-5">
+    <div class="row g-5 align-items-start">
+        <!-- Ảnh sản phẩm -->
+        <div class="col-md-5 text-center">
+            @{
+                var anh = Model.HinhAnh ?? "default.png";
+                // Nếu HinhAnh đã chứa "images/" thì không thêm prefix nữa
+                var src = anh.Contains("images/") ? anh : $"/images/Home/{anh}";
+            }
+
+            <div class="p-3 bg-white rounded shadow-sm border" style="max-width:400px; margin:auto;">
+                <img src="@Url.Content(src)"
+                     alt="@Model.TenSp"
+                     class="img-fluid rounded"
+                     style="object-fit:contain; max-height:420px;">
+            </div>
+        </div>
+
+        <!-- Thông tin sản phẩm -->
+        <div class="col-md-7">
+            <h2 class="fw-bold mb-3">@Model.TenSp</h2>
+
+            <ul class="list-unstyled">
+                <li><b>Tác giả:</b> @Model.TacGia</li>
+                <li><b>Nhà xuất bản:</b> @Model.NhaXuatBan</li>
+                <li><b>Thương hiệu:</b> @(Model.ThuongHieu ?? "Đang cập nhật")</li>
+                <li><b>Danh mục:</b> @(Model.MaDmNavigation?.TenDm ?? "Chưa phân loại")</li>
+            </ul>
+
+            <div class="my-3 d-flex align-items-center">
+                <span class="fs-3 text-danger fw-bold me-2">@Model.GiaBan.ToString("N0") đ</span>
+                <del class="text-muted me-2">@Model.GiaGoc.ToString("N0") đ</del>
+                <span class="badge bg-danger">-@Model.GiamGia%</span>
+            </div>
+
+            <p class="text-secondary">
+                <b>Tồn kho:</b>
+                @(Model.SoLuongTon > 0 ? $"{Model.SoLuongTon} sản phẩm" : "Hết hàng")
+            </p>
+
+            <p><b>Mô tả:</b> @Model.MoTa</p>
+
+            <form asp-controller="GioHang" asp-action="AddToCart" method="post" class="mt-4">
+                <input type="hidden" name="maSp" value="@Model.MaSp" />
+                <button type="submit" class="btn btn-primary px-4 py-2 fw-semibold">
+                    🛒 Thêm vào giỏ hàng
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Gợi ý sản phẩm khác -->
+    <div class="mt-5">
+        <h4 class="fw-bold text-primary mb-3">📚 Sản phẩm liên quan</h4>
+        <p class="text-muted">Khám phá thêm những quyển sách bạn có thể yêu thích</p>
+    </div>
+</div>
+
+<style>
+    .container {
+        max-width: 1100px;
+    }
+</style>

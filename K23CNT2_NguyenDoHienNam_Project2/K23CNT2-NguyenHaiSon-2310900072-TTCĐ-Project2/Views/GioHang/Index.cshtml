@@ -1,0 +1,198 @@
+﻿@model HeThongNhaSach.Models.GioHang
+
+<div class="container my-5">
+    <h2 class="fw-bold mb-4">🛒 GIỎ HÀNG (@Model.ChiTietGioHangs.Count() sản phẩm)</h2>
+
+    @if (Model == null || !Model.ChiTietGioHangs.Any())
+    {
+        <div class="alert alert-info text-center">Giỏ hàng của bạn đang trống.</div>
+    }
+    else
+    {
+        <div class="row">
+            <!-- Danh sách sản phẩm -->
+            <div class="col-lg-8">
+                @foreach (var item in Model.ChiTietGioHangs)
+                {
+                    <div class="card mb-3 shadow-sm border-0 border-bottom">
+                        <div class="row g-0 align-items-center py-3 px-2">
+                            @{
+                                var anh = item.MaSpNavigation?.HinhAnh ?? "default.png";
+                                // Nếu HinhAnh đã chứa "images/" thì không thêm prefix nữa
+                                var src = anh.Contains("images/") ? anh : $"/images/Home/{anh}";
+                            }
+
+                            <img src="@src"
+                                 alt="@item.MaSpNavigation?.TenSp"
+                                 class="img-fluid rounded shadow-sm"
+                                 style="width: 100px; height: 100px; object-fit: contain; border: 1px solid #ddd; border-radius: 8px; background-color: #fff;">
+
+
+
+
+
+                            <!-- Thông tin -->
+                            <div class="col-md-6">
+                                <div class="card-body text-start py-0">
+                                    <h6 class="fw-semibold mb-1">@item.MaSpNavigation?.TenSp</h6>
+                                    <p class="text-danger fw-bold mb-1">@item.DonGia.ToString("N0") đ</p>
+                                    <small class="text-muted">Mã SP: @item.MaSp</small>
+                                </div>
+                            </div>
+
+                            <!-- Số lượng -->
+                            <div class="col-md-2 text-center">
+                                <form asp-action="CapNhatSoLuong" method="post" class="d-inline">
+                                    <input type="hidden" name="maSp" value="@item.MaSp" />
+                                    <div class="quantity-control d-inline-flex align-items-center justify-content-center">
+                                        <button type="submit" name="actionType" value="giam" class="btn-qty">−</button>
+                                        <span class="qty-number">@item.SoLuong</span>
+                                        <button type="submit" name="actionType" value="tang" class="btn-qty">+</button>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- Thành tiền + Xóa -->
+                            <div class="col-md-2 text-center">
+                                <p class="fw-bold mb-1 text-danger">@((item.SoLuong * item.DonGia).ToString("N0")) đ</p>
+                                <form asp-action="XoaSanPham" method="post">
+                                    <input type="hidden" name="maSp" value="@item.MaSp" />
+                                    <button type="submit" class="btn btn-link text-danger p-0 fw-semibold">Xóa</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Tổng kết đơn hàng -->
+            <div class="col-lg-4">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3 text-center">Tổng kết đơn hàng</h5>
+
+                        @{
+                            var tongTien = Model.ChiTietGioHangs.Sum(x => x.SoLuong * x.DonGia);
+                            var conThieu = 250000 - tongTien;
+                            decimal giamGia = 0;
+                            if (ViewBag.GiamGia != null)
+                                giamGia = Convert.ToDecimal(ViewBag.GiamGia);
+                        }
+
+                        <!-- Tạm tính -->
+                        <div class="d-flex justify-content-between mb-2">
+                            <span>Tạm tính:</span>
+                            <span>@tongTien.ToString("N0") đ</span>
+                        </div>
+
+                       
+                        <!-- Mã giảm giá -->
+                        <form asp-action="ApDungMaGiamGia" method="post" class="mb-3">
+                            <label for="maGiamGia" class="form-label fw-semibold mb-1">Mã giảm giá</label>
+
+                            <div class="discount-box d-flex align-items-center">
+                                <input type="text" id="maGiamGia" name="maGiamGia"
+                                       class="form-control flex-grow-1 border-0"
+                                       placeholder="Nhập mã giảm giá..."
+                                       style="font-size:15px; height:42px; border-radius:8px 0 0 8px;">
+                                <button type="submit" class="btn btn-danger fw-semibold"
+                                        style="height:42px; border-radius:0 8px 8px 0; min-width:100px;">
+                                    Áp dụng
+                                </button>
+                            </div>
+
+                            @if (ViewBag.ThongBao != null)
+                            {
+                                <p class="text-success small mt-2 mb-0">@ViewBag.ThongBao</p>
+                            }
+                            @if (ViewBag.Loi != null)
+                            {
+                                <p class="text-danger small mt-2 mb-0">@ViewBag.Loi</p>
+                            }
+                        </form>
+
+						<!-- Tổng cộng -->
+                        <div class="d-flex justify-content-between fw-bold mb-3">
+                            <span>Tổng cộng:</span>
+                            <span class="text-danger fs-5">@((tongTien - giamGia).ToString("N0")) đ</span>
+                        </div>
+
+                        <!-- Miễn phí vận chuyển -->
+                        <div class="mb-3">
+                            @if (tongTien >= 250000)
+                            {
+                                <div class="alert alert-success py-2 text-center mb-2" style="border-radius:8px; background-color:#E6F4EA;">
+                                    🟢 <b>Bạn đã được miễn phí vận chuyển!</b>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-warning py-2 text-center mb-2" style="border-radius:8px; background-color:#FFF6E0;">
+                                    Mua thêm <b>@conThieu.ToString("N0") đ</b> để được <b>miễn phí vận chuyển</b> 🚚
+                                    <div class="progress mt-2" style="height: 8px;">
+                                        <div class="progress-bar bg-danger" role="progressbar"
+                                             style="width:@(Math.Min((tongTien * 100 / 250000), 100))%"></div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+
+                        <!-- Nút thanh toán -->
+                        <form asp-action="ThanhToan" method="post">
+                            <button type="submit" class="btn btn-danger w-100 py-2 fw-bold fs-6">
+                                THANH TOÁN
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<!-- 🎨 CSS -->
+<style>
+    .quantity-control {
+        border: 2px solid #dc3545;
+        border-radius: 30px;
+        overflow: hidden;
+        width: 100px;
+        height: 36px;
+        background-color: #fff;
+    }
+
+    .btn-qty {
+        width: 34px;
+        height: 34px;
+        border: none;
+        background-color: #dc3545;
+        color: #fff;
+        font-weight: bold;
+        font-size: 18px;
+        line-height: 1;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+        .btn-qty:hover {
+            background-color: #b02a37;
+        }
+
+    .qty-number {
+        width: 32px;
+        text-align: center;
+        font-weight: 600;
+        color: #333;
+        font-size: 16px;
+        user-select: none;
+    }
+
+    .input-group .btn-danger {
+        font-size: 15px;
+        min-width: 90px;
+    }
+
+    .alert-success b, .alert-warning b {
+        font-weight: 600;
+    }
+</style>
