@@ -1,2 +1,0 @@
-# K23CNT2_NguyenDoHienNam_Project2
-K23CNT2_NguyenDoHienNam_Project2
